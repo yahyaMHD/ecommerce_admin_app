@@ -1,55 +1,58 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { Animated, Dimensions, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useRef } from 'react'
 import { colors } from '../../constants/Theme'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Link } from 'expo-router'
+import { router } from 'expo-router'
 const { width, height } = Dimensions.get('window')
+
+
 
 
 const Welcome = () => {
 
-//     // animtaions 
+    const welcomeImage = require('../../assets/images/welcome.png')
+    // animtaions 
 
-//     let duration = 1000
+    let duration = 1000
 
-//     //image animation
+    //image animation
 
-//     let fadeImageAnimation = useRef(new Animated.Value(0)).current
-//     let moveImageAnimation = useRef(new Animated.ValueXY({ x: 0, y: 250 })).current
+    let fadeImageAnimation = useRef(new Animated.Value(0)).current
+    let moveImageAnimation = useRef(new Animated.ValueXY({ x: 0, y: 250 })).current
 
-//     // button animation 
+    // button animation 
 
-//     let moveButton = useRef(new Animated.ValueXY({ x: 0, y: 250 })).current
+    let moveButton = useRef(new Animated.ValueXY({ x: 0, y: 250 })).current
 
-//     // handel image animation 
+    // handel image animation 
 
-//     const handleImageAnimation = () => {
-//         Animated.sequence([
-//             Animated.timing(fadeImageAnimation, {
-//                 toValue: 1,
-//                 duration,
-//                 useNativeDriver: true
-//             }),
-//             Animated.spring(moveImageAnimation, {
-//                 toValue: { x: 0, y: 0 },
-//                 useNativeDriver: true
-//             })
-//         ]).start()
-//     }
-//     // handel button animation 
+    const handleImageAnimation = () => {
+        Animated.sequence([
+            Animated.timing(fadeImageAnimation, {
+                toValue: 1,
+                duration,
+                useNativeDriver: true
+            }),
+            Animated.spring(moveImageAnimation, {
+                toValue: { x: 0, y: 0 },
+                useNativeDriver: true
+            })
+        ]).start()
+    }
+    // handel button animation 
 
-//     const handleMoveButton = () => {
-//         Animated.spring(moveButton, {
-//             toValue: { x: 0, y: 0 },
-//             delay: duration + 300,
-//             useNativeDriver: true
-//         }).start()
-//     }
+    const handleMoveButton = () => {
+        Animated.spring(moveButton, {
+            toValue: { x: 0, y: 0 },
+            delay: duration + 300,
+            useNativeDriver: true
+        }).start()
+    }
 
-//     useEffect(() => {
-//         handleImageAnimation()
-//         handleMoveButton()
-//     }, [handleImageAnimation, handleMoveButton, ])
+    useEffect(() => {
+        handleImageAnimation()
+        handleMoveButton()
+    }, [handleImageAnimation, handleMoveButton, ])
 
 
     const { top } = useSafeAreaInsets()
@@ -64,19 +67,15 @@ const Welcome = () => {
                         <Text style={{ color: colors.violette }}>TEC</Text>
                     </Text>
                 </View>
-                {/* <Animated.View style={{ opacity: fadeImageAnimation, transform: moveImageAnimation.getTranslateTransform() }}>
-                </Animated.View> */}
+                <Animated.View style={{ opacity: fadeImageAnimation, transform: moveImageAnimation.getTranslateTransform() }}>
+                    <Image source={welcomeImage} style={[styles.image, {borderRadius:300}]} />
+                </Animated.View>
             </View>
-            {/* <Link href={'/(tabs)/(pages)/Home'}> */}
-                {/* <Animated.View style={[styles.circle, { transform: moveButton.getTranslateTransform() }]}>
+            <Pressable onPress={() => router.push('/(tabs)/(pages)/Home/')} >
+                <Animated.View style={[styles.circle, { transform: moveButton.getTranslateTransform() }]}>
                     <Text style={styles.circleText}>START</Text>
-                </Animated.View> */}
-            {/* </Link> */}
-            <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                <Link href={'/(tabs)/(pages)/Home'} >
-                <Text style={{color:colors.orange, fontSize:50, fontWeight:'800'}}>Start</Text>
-                </Link>
-            </View>
+                </Animated.View>
+            </Pressable>
         </View>
     )
 }
